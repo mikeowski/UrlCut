@@ -1,8 +1,8 @@
-import '../styles/globals.css';
 import { withTRPC } from '@trpc/next';
 import { AppType } from 'next/dist/shared/lib/utils';
 import { AppRouter } from './api/trpc/[trpc]';
-
+import superjson from 'superjson';
+import '../styles/globals.css';
 const MyApp: AppType = ({ Component, pageProps }) => {
   return <Component {...pageProps} />;
 };
@@ -23,6 +23,7 @@ function getBaseUrl() {
   // assume localhost
   return `http://localhost:${process.env.PORT ?? 3000}`;
 }
+
 export default withTRPC<AppRouter>({
   config({ ctx }) {
     /**
@@ -30,8 +31,10 @@ export default withTRPC<AppRouter>({
      * @link https://trpc.io/docs/ssr
      */
     const url = `${getBaseUrl()}/api/trpc`;
+
     return {
-      url
+      url,
+      transformer: superjson
       /**
        * @link https://react-query-v3.tanstack.com/reference/QueryClient
        */

@@ -8,5 +8,5 @@ body {
 }
 .container {
   @apply max-w-screen-lg
-  mx-auto mt-32;
+  mx-auto;
 }
