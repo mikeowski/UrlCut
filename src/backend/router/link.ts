@@ -35,4 +35,17 @@ export const LinkRouter = trpc
         }
       });
     }
+  })
+  .query('ısTagUnique', {
+    input: z.string(),
+    async resolve({ input }) {
+      const count = await prisma.shortLink.count({
+        where: {
+          tag: {
+            equals: input
+          }
+        }
+      });
+      return count === 0;
+    }
   });
