@@ -2,6 +2,7 @@ import * as trpc from '@trpc/server';
 import { resolve } from 'path';
 import { z } from 'zod';
 import { prisma } from '../../db/client';
+import { createLinkValidator } from '../../shared/createLinkValidator';
 export const LinkRouter = trpc
   .router()
   .query('getAllLinks', {
@@ -22,5 +23,16 @@ export const LinkRouter = trpc
       });
       if (!link) new Error('Link not found');
       return link;
+    }
+  })
+  .mutation('createLink', {
+    input: createLinkValidator,
+    async resolve({ input }) {
+      return await prisma.shortLink.create({
+        data: {
+          tag: input.tag,
+          url: input.url
+        }
+      });
     }
   });
