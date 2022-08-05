@@ -37,12 +37,14 @@ export const LinkRouter = trpc
     }
   })
   .query('ısTagUnique', {
-    input: z.string(),
+    input: z.object({
+      tag: z.string()
+    }),
     async resolve({ input }) {
       const count = await prisma.shortLink.count({
         where: {
           tag: {
-            equals: input
+            equals: input.tag
           }
         }
       });
