@@ -6,25 +6,26 @@ import { trpc } from '../utils/trpc';
 import { nanoid } from 'nanoid';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
+import copy from 'copy-to-clipboard';
 import {
   createLinkValidator,
   createLinkValidatorType
 } from '../shared/createLinkValidator';
 import { divide } from 'lodash';
+import { useState } from 'react';
 const Home: NextPage = () => {
-  const mainUrl = window.location.origin;
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitted },
     setValue,
     getValues,
     reset
   } = useForm<createLinkValidatorType>({
     resolver: zodResolver(createLinkValidator)
   });
-
+  const [isCoppied, setIsCopied] = useState<boolean>(false);
   const {
     mutate: createLink,
     isLoading,
@@ -49,29 +50,33 @@ const Home: NextPage = () => {
   classnames(tag, {
     'text-alternate': isUnique.isFetched && !isUnique.data
   });
-  if (createLinkStatus === 'success') {
+  if (createLinkStatus === 'success' && isSubmitted) {
     return (
-      <>
-        <div className="flex justify-center items-center">
-          <h1>{`${mainUrl}/${getValues('url')}`}</h1>
-          <input
-            type="button"
-            value="Copy Link"
-            className="rounded bg-pink-500 py-1.5 px-1 font-bold cursor-pointer ml-2"
+      <div className="container flex flex-col space-y-4 mt-60 px-4 sm:px-4 py-20">
+        <h1 className="font-bold text-2xl sm:text-4xl text-center">
+          {`https://url.mike4.dev/${getValues('tag')}`}
+        </h1>
+        <div className="flex w-full gap-4 justify-center">
+          <button
+            className="w-full hover:cursor-pointer border-alternate text-alternate hover:backdrop-grayscale backdrop-grayscale-0 border  transition-all rounded-lg px-2 py-2 hover:border-1"
             onClick={() => {
-              copy(`${url}/${form.slug}`);
+              setIsCopied(copy(`https://url.mike4.dev/${getValues('tag')}`));
             }}
-          />
+          >
+            Copy Link
+          </button>
+          <button
+            className="w-52 ml-4 border-alternate text-alternate hover:grayscale-0  border grayscale transition-all rounded-lg px-2 py-2 hover:border-1"
+            onClick={() => {
+              reset();
+              setIsCopied(false);
+            }}
+          >
+            restart
+          </button>
         </div>
-        <input
-          type="button"
-          value="Reset"
-          className="rounded bg-pink-500 py-1.5 px-1 font-bold cursor-pointer m-5"
-          onClick={() => {
-            reset();
-          }}
-        />
-      </>
+        {isCoppied && <span className="text-center text-xl">Copied!</span>}
+      </div>
     );
   }
   return (
@@ -82,7 +87,9 @@ const Home: NextPage = () => {
       </Head>
       <div className="mt-60 px-1 sm:px-4 py-20 rounded-lg ">
         <form
-          onSubmit={handleSubmit((data) => createLink(data))}
+          onSubmit={handleSubmit((data) => {
+            createLink(data);
+          })}
           className="flex flex-col justify-center space-y-4"
         >
           <label htmlFor="string" className="flex justify-between space-x-4">
@@ -104,15 +111,14 @@ const Home: NextPage = () => {
               className={tag}
               onChange={(e) => {
                 debounce(isUnique.refetch, 100);
-                console.log(getValues('tag'));
               }}
             />
-            <button
+            <input
               onClick={randomTag}
+              type="button"
+              value="Pick"
               className="w-52 ml-4 border-alternate text-alternate hover:grayscale-0  border grayscale transition-all rounded-lg px-2 py-2 hover:border-1"
-            >
-              Pick
-            </button>
+            />
           </label>
 
           {/* errors will return when field validation fails  */}
