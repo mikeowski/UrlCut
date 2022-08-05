@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
-  darkMode: 'media',
   theme: {
     extend: {
       colors: {
@@ -17,7 +16,12 @@ module.exports = {
           700: '#333333',
           800: '#222222',
           900: '#111111'
-        }
+        },
+        'green-special': '#167C80',
+        'green-border': '#B7E3E4',
+        main: '#E9E8D4',
+        alternate: '#EA1821',
+        'bg-main': '#12162D'
       }
     }
   },

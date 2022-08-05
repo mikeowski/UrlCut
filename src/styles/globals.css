@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-white text-gray-900
-  dark:bg-gray-900 dark:text-gray-200 pb-10;
+  @apply bg-bg-main text-main transition-all;
 }
 .container {
   @apply max-w-screen-lg
