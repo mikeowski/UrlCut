@@ -45,7 +45,9 @@ const Home: NextPage = () => {
   })
 
   const randomTag = () => {
-    setValue('tag', nanoid())
+    const rndm = nanoid(20)
+    setValue('tag', rndm)
+    setTag(rndm)
   }
   const tagClassMain =
     'font-bold border-gray-500 focus:border-alternate w-full text-lg sm:text-2xl rounded bg-inherit border-b pb-1 px-2 focus:outline-none focus:bg-inherit'
