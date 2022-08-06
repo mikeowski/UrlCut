@@ -58,13 +58,13 @@ const Home: NextPage = () => {
 
   if (createLinkStatus === 'success' && isSubmitted) {
     return (
-      <div className="container flex flex-col space-y-4 mt-60 px-4 sm:px-4 py-20">
-        <h1 className="font-bold text-2xl sm:text-4xl text-center">
+      <div className="container mt-60 flex flex-col space-y-4 px-4 py-20 sm:px-4">
+        <h1 className="text-center text-2xl font-bold sm:text-4xl">
           {`https://url.mike4.dev/${getValues('tag')}`}
         </h1>
-        <div className="flex w-full gap-4 justify-center">
+        <div className="flex w-full justify-center gap-4">
           <button
-            className="w-full hover:cursor-pointer border-alternate text-alternate hover:backdrop-grayscale backdrop-grayscale-0 border  transition-all rounded-lg px-2 py-2 hover:border-1"
+            className="hover:border-1 w-full rounded-lg border border-alternate px-2 py-2  text-alternate backdrop-grayscale-0 transition-all hover:cursor-pointer hover:backdrop-grayscale"
             onClick={() => {
               setIsCopied(copy(`https://url.mike4.dev/${getValues('tag')}`))
             }}
@@ -72,7 +72,7 @@ const Home: NextPage = () => {
             Copy Link
           </button>
           <button
-            className="w-52 ml-4 border-alternate text-alternate hover:grayscale-0  border grayscale transition-all rounded-lg px-2 py-2 hover:border-1"
+            className="hover:border-1 ml-4 w-52 rounded-lg border  border-alternate px-2 py-2 text-alternate grayscale transition-all hover:grayscale-0"
             onClick={() => {
               reset()
               setIsCopied(false)
@@ -91,7 +91,7 @@ const Home: NextPage = () => {
         <title>UrlCut</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mt-60 px-1 sm:px-4 py-20 rounded-lg ">
+      <div className="mt-60 rounded-lg px-1 py-20 sm:px-4 ">
         <form
           onSubmit={handleSubmit((data) => {
             createLink(data)
@@ -99,15 +99,15 @@ const Home: NextPage = () => {
           className="flex flex-col justify-center space-y-4"
         >
           <label htmlFor="string" className="flex justify-between space-x-4">
-            <span className="font-bold text-xl sm:text-4xl">URL:</span>
+            <span className="text-xl font-bold sm:text-4xl">URL:</span>
             <input
               {...register('url', { required: true })}
               placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-              className="font-bold  border-gray-500 focus:border-alternate w-full text-lg sm:text-2xl rounded bg-inherit border-b pb-1 px-2 focus:outline-none focus:bg-inherit"
+              className="w-full  rounded border-b border-gray-500 bg-inherit px-2 pb-1 text-lg font-bold focus:border-alternate focus:bg-inherit focus:outline-none sm:text-2xl"
             />
           </label>
-          <label htmlFor="string" className="flex justify-between items-center">
-            <span className="font-bold text-xl sm:text-4xl">
+          <label htmlFor="string" className="flex items-center justify-between">
+            <span className="text-xl font-bold sm:text-4xl">
               url.mike4.dev/
             </span>
             <input
@@ -123,14 +123,14 @@ const Home: NextPage = () => {
               onClick={randomTag}
               type="button"
               value="Pick"
-              className="w-52 ml-4 border-alternate text-alternate hover:grayscale-0  border grayscale transition-all rounded-lg px-2 py-2 hover:border-1"
+              className="hover:border-1 ml-4 w-52 rounded-lg border  border-alternate px-2 py-2 text-alternate grayscale transition-all hover:grayscale-0"
             />
           </label>
           <input
             value=" Cut This Url"
             type="submit"
             disabled={isUnique.isFetched && !isUnique.data}
-            className="disabled:grayscale hover:cursor-pointer  border-alternate text-alternate hover:backdrop-grayscale backdrop-grayscale-0 border  transition-all rounded-lg px-2 py-2 hover:border-1"
+            className="hover:border-1 rounded-lg  border border-alternate px-2 py-2 text-alternate  backdrop-grayscale-0 transition-all hover:cursor-pointer hover:backdrop-grayscale disabled:grayscale"
           />
           {errors.url && <span>Url is required</span>}
           {errors.tag && <span>Tag is required</span>}
