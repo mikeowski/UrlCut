@@ -121,14 +121,14 @@ const Home: NextPage = () => {
             />
           </label>
 
-          {/* errors will return when field validation fails  */}
-          {errors.url && <span>This field is required</span>}
-          <button
+          {errors.url && <span>Url is required</span>}
+          {errors.tag && <span>Tag is required</span>}
+
+          <input
+            value=" Cut This Url"
             type="submit"
             className="hover:cursor-pointer  border-alternate text-alternate hover:backdrop-grayscale backdrop-grayscale-0 border  transition-all rounded-lg px-2 py-2 hover:border-1"
-          >
-            Cut This Url
-          </button>
+          />
         </form>
       </div>
     </div>
