@@ -3,8 +3,14 @@ import { AppType } from 'next/dist/shared/lib/utils'
 import { AppRouter } from './api/trpc/[trpc]'
 import superjson from 'superjson'
 import '../styles/globals.css'
+import Footer from '../components/footer'
 const MyApp: AppType = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <Component {...pageProps} />
+      <Footer />
+    </>
+  )
 }
 function getBaseUrl() {
   if (typeof window !== 'undefined') {
