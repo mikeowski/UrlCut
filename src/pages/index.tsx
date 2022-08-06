@@ -123,7 +123,7 @@ const Home: NextPage = () => {
               onClick={randomTag}
               type="button"
               value="Pick"
-              className="hover:border-1 ml-4 w-52 rounded-lg border  border-alternate px-2 py-2 text-alternate grayscale transition-all hover:grayscale-0"
+              className="hover:border-1 ml-4 w-52 rounded-lg border border-alternate  px-2 py-2 text-alternate grayscale transition-all hover:cursor-pointer hover:grayscale-0"
             />
           </label>
           <input
