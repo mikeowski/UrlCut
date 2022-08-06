@@ -78,7 +78,7 @@ const Home: NextPage = () => {
               setIsCopied(false)
             }}
           >
-            restart
+            New Url
           </button>
         </div>
         {isCoppied && <span className="text-center text-xl">Copied!</span>}
