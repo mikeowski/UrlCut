@@ -14,7 +14,10 @@ export async function middleware(req: NextRequest) {
   const data = await slugFetch.json();
 
   if (data?.url) {
-    return NextResponse.redirect(data.url);
+    const redirectURl = data?.url.startsWith('https')
+      ? data?.url
+      : `https://${data?.url}`;
+    return NextResponse.redirect(redirectURl);
   }
 }
 
