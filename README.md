@@ -3,5 +3,5 @@
 ## TODO
 
 - [x] Add tag validation (uniuqe or not)
-- [ ] Check URL status (url workins?)
+- [ ] Check URL status (url working?)
 - [ ] More usable Uİ
