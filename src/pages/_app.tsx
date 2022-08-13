@@ -3,10 +3,14 @@ import { AppType } from 'next/dist/shared/lib/utils'
 import { AppRouter } from './api/trpc/[trpc]'
 import superjson from 'superjson'
 import '../styles/globals.css'
+import Logo from '../components/logo'
 import Footer from '../components/footer'
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
+      <header className="flex w-full justify-center pt-4">
+        <Logo width={120} height={120} fillColor={'#E9E8D4'} />
+      </header>
       <Component {...pageProps} />
       <Footer />
     </>
