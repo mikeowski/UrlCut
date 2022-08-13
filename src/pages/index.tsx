@@ -13,6 +13,7 @@ import {
 } from '../shared/createLinkValidator'
 import { divide } from 'lodash'
 import { ChangeEvent, useEffect, useState } from 'react'
+import Logo from '../components/logo'
 const Home: NextPage = () => {
   const {
     register,
@@ -91,6 +92,10 @@ const Home: NextPage = () => {
         <title>UrlCut</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <header className="flex w-full justify-center pt-4">
+        <Logo width={120} height={120} fillColor={'#E9E8D4'} />
+      </header>
+
       <div className="mt-60 rounded-lg px-1 py-20 sm:px-4 ">
         <form
           onSubmit={handleSubmit((data) => {
