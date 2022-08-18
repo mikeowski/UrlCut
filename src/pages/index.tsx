@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { trpc } from '../utils/trpc'
 import { nanoid } from 'nanoid'
@@ -11,19 +11,15 @@ import {
   createLinkValidator,
   createLinkValidatorType,
 } from '../shared/createLinkValidator'
-import { divide } from 'lodash'
-import { ChangeEvent, useEffect, useState } from 'react'
-import Logo from '../components/logo'
+import { ChangeEvent, useState } from 'react'
 const Home: NextPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isSubmitted },
     setValue,
     getValues,
     reset,
-    getFieldState,
   } = useForm<createLinkValidatorType>({
     resolver: zodResolver(createLinkValidator),
   })
@@ -33,11 +29,9 @@ const Home: NextPage = () => {
     debounce(isUnique.refetch, 100)
   }
   const [isCoppied, setIsCopied] = useState<boolean>(false)
-  const {
-    mutate: createLink,
-    isLoading,
-    status: createLinkStatus,
-  } = trpc.useMutation(['link.createLink'])
+  const { mutate: createLink, status: createLinkStatus } = trpc.useMutation([
+    'link.createLink',
+  ])
 
   const isUnique = trpc.useQuery(['link.ısTagUnique', { tag: tag }], {
     refetchOnReconnect: false, // replacement for enable: false which isn't respected.
@@ -59,13 +53,13 @@ const Home: NextPage = () => {
 
   if (createLinkStatus === 'success' && isSubmitted) {
     return (
-      <div className="container mt-60 flex flex-col space-y-4 px-4 py-20 sm:px-4">
-        <h1 className="text-center text-2xl font-bold sm:text-4xl">
+      <div className="container flex flex-col px-4 py-20 mt-60 space-y-4 sm:px-4">
+        <h1 className="text-2xl font-bold text-center sm:text-4xl">
           {`https://url.mike4.dev/${getValues('tag')}`}
         </h1>
-        <div className="flex w-full justify-center gap-4">
+        <div className="flex justify-center w-full gap-4">
           <button
-            className="hover:border-1 w-full rounded-lg border border-alternate px-2 py-2  text-alternate backdrop-grayscale-0 transition-all hover:cursor-pointer hover:backdrop-grayscale"
+            className="w-full px-2 py-2 border rounded-lg hover:border-1 border-alternate text-alternate backdrop-grayscale-0 transition-all hover:cursor-pointer hover:backdrop-grayscale"
             onClick={() => {
               setIsCopied(copy(`https://url.mike4.dev/${getValues('tag')}`))
             }}
@@ -73,7 +67,7 @@ const Home: NextPage = () => {
             Copy Link
           </button>
           <button
-            className="hover:border-1 ml-4 w-52 rounded-lg border  border-alternate px-2 py-2 text-alternate grayscale transition-all hover:grayscale-0"
+            className="px-2 py-2 ml-4 border rounded-lg hover:border-1 w-52 border-alternate text-alternate grayscale transition-all hover:grayscale-0"
             onClick={() => {
               reset()
               setIsCopied(false)
@@ -82,7 +76,7 @@ const Home: NextPage = () => {
             New Url
           </button>
         </div>
-        {isCoppied && <span className="text-center text-xl">Copied!</span>}
+        {isCoppied && <span className="text-xl text-center">Copied!</span>}
       </div>
     )
   }
@@ -93,7 +87,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="mt-60 rounded-lg px-1 py-20 sm:px-4 ">
+      <div className="px-1 py-20 rounded-lg mt-60 sm:px-4 ">
         <form
           onSubmit={handleSubmit((data) => {
             createLink(data)
@@ -105,7 +99,7 @@ const Home: NextPage = () => {
             <input
               {...register('url', { required: true })}
               placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-              className="w-full  rounded border-b border-gray-500 bg-inherit px-2 pb-1 text-lg font-bold focus:border-alternate focus:bg-inherit focus:outline-none sm:text-2xl"
+              className="w-full px-2 pb-1 text-lg font-bold border-b border-gray-500 rounded bg-inherit focus:border-alternate focus:bg-inherit focus:outline-none sm:text-2xl"
             />
           </label>
           <label htmlFor="string" className="flex items-center justify-between">
@@ -125,14 +119,14 @@ const Home: NextPage = () => {
               onClick={randomTag}
               type="button"
               value="Pick"
-              className="hover:border-1 ml-4 w-52 rounded-lg border border-alternate  px-2 py-2 text-alternate grayscale transition-all hover:cursor-pointer hover:grayscale-0"
+              className="px-2 py-2 ml-4 border rounded-lg hover:border-1 w-52 border-alternate text-alternate grayscale transition-all hover:cursor-pointer hover:grayscale-0"
             />
           </label>
           <input
             value=" Cut This Url"
             type="submit"
             disabled={isUnique.isFetched && !isUnique.data}
-            className="hover:border-1 rounded-lg  border border-alternate px-2 py-2 text-alternate  backdrop-grayscale-0 transition-all hover:cursor-pointer hover:backdrop-grayscale disabled:grayscale"
+            className="px-2 py-2 border rounded-lg hover:border-1 border-alternate text-alternate backdrop-grayscale-0 transition-all hover:cursor-pointer hover:backdrop-grayscale disabled:grayscale"
           />
           {errors.url && <span>Url is required</span>}
           {errors.tag && <span>Tag is required</span>}
