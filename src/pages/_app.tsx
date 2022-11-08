@@ -5,6 +5,7 @@ import superjson from 'superjson'
 import '../styles/globals.css'
 import Logo from '../components/logo'
 import Footer from '../components/footer'
+import { Analytics } from '@vercel/analytics/react';
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
@@ -13,6 +14,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       </header>
       <Component {...pageProps} />
       <Footer />
+      <Analytics />
     </>
   )
 }
